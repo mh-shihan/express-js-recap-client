@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link, replace, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../firebase/AuthProviders";
 import toast from "react-hot-toast";
+import GoogleLogin from "../../components/social-login/GoogleLogin";
 
 const Signin = () => {
   const { signinUser } = useContext(AuthContext);
@@ -60,6 +61,7 @@ const Signin = () => {
               </button>
             </fieldset>
           </form>
+          <GoogleLogin></GoogleLogin>
           <p className="text-sm text-center">
             <span>Do not have any account? </span>{" "}
             <Link to="/signup">
