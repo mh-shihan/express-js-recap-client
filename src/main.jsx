@@ -8,6 +8,7 @@ import Home from "./pages/home/Home.jsx";
 import InsertedPeoples from "./pages/inserted-peoples/InsertedPeoples.jsx";
 import Update from "./pages/update/Update.jsx";
 import Signup from "./pages/signup/Signup.jsx";
+import AuthProviders from "./firebase/AuthProviders.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProviders>
+      <RouterProvider router={router} />
+    </AuthProviders>
   </StrictMode>
 );
