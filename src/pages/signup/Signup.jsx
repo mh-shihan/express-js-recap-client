@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../firebase/AuthProviders";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const { signupUser, updateUser } = useContext(AuthContext);
@@ -13,7 +14,7 @@ const Signup = () => {
     const toastId = toast.loading("Loading.....");
 
     signupUser(email, password)
-      .then((res) => {
+      .then(() => {
         updateUser(name).then(() => {
           const userInfo = { name, email };
           fetch("http://localhost:5000/users", {
@@ -77,6 +78,14 @@ const Signup = () => {
               </button>
             </fieldset>
           </form>
+          <p className="text-sm text-center">
+            <span>Already Have an account </span>{" "}
+            <Link to="/signin">
+              <span className="text-blue-800 underline cursor-pointer font-semibold">
+                Signin
+              </span>
+            </Link>
+          </p>
         </div>
       </div>
     </div>

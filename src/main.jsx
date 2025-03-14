@@ -9,6 +9,7 @@ import InsertedPeoples from "./pages/inserted-peoples/InsertedPeoples.jsx";
 import Update from "./pages/update/Update.jsx";
 import Signup from "./pages/signup/Signup.jsx";
 import AuthProviders from "./firebase/AuthProviders.jsx";
+import Signin from "./pages/signin/Signin.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: <Signup></Signup>,
+      },
+      {
+        path: "signin",
+        element: <Signin></Signin>,
       },
     ],
   },
