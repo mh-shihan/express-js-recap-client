@@ -12,6 +12,9 @@ const Navbar = () => {
       <li>
         <NavLink to="/inserted-peoples">Inserted People</NavLink>
       </li>
+      <li>
+        <NavLink to="/signup">Signup</NavLink>
+      </li>
     </>
   );
   return (
@@ -41,7 +44,7 @@ const Navbar = () => {
             {navItem}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">Express Recap</a>
+        <a className="btn btn-ghost  font-bold text-3xl">Express Recap</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 font-semibold text-lg">
