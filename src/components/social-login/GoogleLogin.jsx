@@ -9,8 +9,23 @@ const GoogleLogin = () => {
 
   const handleGoogleLogin = () => {
     const toastId = toast.loading("Loading...");
-    googleSignIn().then(() => {
-      toast.success("Google Sign In Successful", { id: toastId });
+    googleSignIn().then((res) => {
+      const userInfo = {
+        name: res.user?.displayName,
+        email: res.user?.email,
+      };
+      fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(userInfo),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.insertedId) {
+            toast.success("Google Sign In Successful", { id: toastId });
+          }
+        });
+
       navigate(location?.state ? location.state : "/", { replace: true });
     });
   };
