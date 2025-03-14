@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../firebase/AuthProviders";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const { signupUser, updateUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const handleSignUp = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -30,6 +32,7 @@ const Signup = () => {
               }
             });
         });
+        navigate("/");
       })
       .catch((error) => {
         console.log(error.message);
@@ -79,10 +82,10 @@ const Signup = () => {
             </fieldset>
           </form>
           <p className="text-sm text-center">
-            <span>Already Have an account </span>{" "}
+            <span>Already Have an account? </span>{" "}
             <Link to="/signin">
               <span className="text-blue-800 underline cursor-pointer font-semibold">
-                Signin
+                SignIn
               </span>
             </Link>
           </p>

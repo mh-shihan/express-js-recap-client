@@ -1,6 +1,39 @@
-import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../firebase/AuthProviders";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do You want to Sign Out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Sign Out!",
+    }).then((result) => {
+      logOut()
+        .then(() => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Sign Out!",
+              text: "Sign Out Successful",
+              icon: "success",
+            });
+            navigate("/");
+          }
+        })
+        .then((error) => {
+          console.log(error);
+        });
+    });
+  };
+
   const navItem = (
     <>
       <li>
@@ -11,9 +44,6 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink to="/inserted-peoples">Inserted People</NavLink>
-      </li>
-      <li>
-        <NavLink to="/signin">Signin</NavLink>
       </li>
     </>
   );
@@ -52,7 +82,19 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {user ? (
+          <button
+            onClick={handleLogout}
+            className={`btn tooltip tooltip-left`}
+            data-tip={`${user.displayName}`}
+          >
+            SignOut
+          </button>
+        ) : (
+          <Link to="/signin">
+            <button className="btn">Login</button>
+          </Link>
+        )}
       </div>
     </div>
   );
