@@ -88,7 +88,7 @@ const Navbar = () => {
             className={`btn tooltip tooltip-left`}
             data-tip={`${user.displayName}`}
           >
-            SignOut
+            Sign Out
           </button>
         ) : (
           <Link to="/signin">

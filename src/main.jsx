@@ -10,6 +10,7 @@ import Update from "./pages/update/Update.jsx";
 import Signup from "./pages/signup/Signup.jsx";
 import AuthProviders from "./firebase/AuthProviders.jsx";
 import Signin from "./pages/signin/Signin.jsx";
+import PrivateRoute from "./routes/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,10 +18,21 @@ const router = createBrowserRouter([
     element: <MainLayout></MainLayout>,
     children: [
       { path: "/", element: <Home></Home> },
-      { path: "input-form", element: <InputForm></InputForm> },
+      {
+        path: "input-form",
+        element: (
+          <PrivateRoute>
+            <InputForm></InputForm>
+          </PrivateRoute>
+        ),
+      },
       {
         path: "inserted-peoples",
-        element: <InsertedPeoples></InsertedPeoples>,
+        element: (
+          <PrivateRoute>
+            <InsertedPeoples></InsertedPeoples>
+          </PrivateRoute>
+        ),
         loader: () => fetch("http://localhost:5000/inserted-peoples"),
       },
       {

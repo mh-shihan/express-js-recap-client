@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, replace, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../firebase/AuthProviders";
 import toast from "react-hot-toast";
 
 const Signin = () => {
   const { signinUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ const Signin = () => {
     signinUser(email, password)
       .then(() => {
         toast.success("SignIn Successful", { id: toastId });
-        navigate("/");
+        navigate(location?.state ? location.state : "/", { replace: true });
       })
       .catch((error) => {
         console.log(error.message);
