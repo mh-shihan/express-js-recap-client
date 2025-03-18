@@ -3,27 +3,31 @@ import { useEffect, useState } from "react";
 import useAuthInfo from "../../hooks/useAuthInfo";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 
 const InsertedPeoples = () => {
-  const [insertedPeoples, setInsertedPeoples] = useState([]);
+  // const [insertedPeoples, setInsertedPeoples] = useState([]);
   const { user } = useAuthInfo();
+  const fetchInsertedPeoples = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/inserted-peoples?email=${user?.email}`,
+        { withCredentials: true }
+      );
+      return res.data;
+    } catch (error) {
+      console.error("Error fetching inserted peoples:", error);
+    }
+  };
 
-  useEffect(() => {
-    const fetchInsertedPeoples = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/inserted-peoples?email=${user?.email}`,
-          { withCredentials: true }
-        );
-        console.log(res.data);
-        setInsertedPeoples(res.data);
-      } catch (error) {
-        console.error("Error fetching inserted peoples:", error);
-      }
-    };
-
-    fetchInsertedPeoples();
-  }, []);
+  const {
+    refetch,
+    isPending,
+    data: insertedPeoples = [],
+  } = useQuery({
+    queryKey: ["insertedPeople"],
+    queryFn: fetchInsertedPeoples,
+  });
 
   const handleDelete = (id) => {
     console.log(id);
@@ -34,10 +38,7 @@ const InsertedPeoples = () => {
       .then((data) => {
         console.log(data);
         if (data.deletedCount > 0) {
-          const remainingPeoples = insertedPeoples.filter(
-            (people) => people._id !== id
-          );
-          setInsertedPeoples(remainingPeoples);
+          refetch();
           toast.success("Deleted Successfully.", {
             style: {
               border: "1px solid #D32F2F", // Dark red border
@@ -58,6 +59,9 @@ const InsertedPeoples = () => {
       <p className="text-center font-medium text-2xl my-4">
         Total Inserted People : {insertedPeoples.length}
       </p>
+      {isPending && (
+        <span className="loading loading-dots loading-3xl text-center"></span>
+      )}
       {
         <div className="grid grid-cols-5 gap-2 mx-20  mb-20">
           {insertedPeoples &&

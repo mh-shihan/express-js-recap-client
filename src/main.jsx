@@ -12,6 +12,10 @@ import AuthProviders from "./firebase/AuthProviders.jsx";
 import Signin from "./pages/signin/Signin.jsx";
 import PrivateRoute from "./routes/PrivateRoute.jsx";
 
+// TanStack Query
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient();
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -54,8 +58,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProviders>
-      <RouterProvider router={router} />
-    </AuthProviders>
+    <QueryClientProvider client={queryClient}>
+      <AuthProviders>
+        <RouterProvider router={router} />
+      </AuthProviders>
+    </QueryClientProvider>
   </StrictMode>
 );
