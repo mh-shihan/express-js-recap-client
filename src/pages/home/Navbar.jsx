@@ -82,14 +82,14 @@ const Navbar = () => {
         {user ? (
           <button
             onClick={handleLogout}
-            className={`btn tooltip tooltip-left`}
+            className={`btn tooltip tooltip-left bg-red-400 text-white`}
             data-tip={`${user.displayName}`}
           >
             Sign Out
           </button>
         ) : (
           <Link to="/signin">
-            <button className="btn">Login</button>
+            <button className="btn border-2 border-green-600">Login</button>
           </Link>
         )}
       </div>
