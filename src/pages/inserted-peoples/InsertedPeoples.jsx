@@ -9,12 +9,20 @@ const InsertedPeoples = () => {
   const { user } = useAuthInfo();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/inserted-peoples?email=${user?.email}`)
-      .then((res) => {
+    const fetchInsertedPeoples = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/inserted-peoples?email=${user?.email}`,
+          { withCredentials: true }
+        );
         console.log(res.data);
         setInsertedPeoples(res.data);
-      });
+      } catch (error) {
+        console.error("Error fetching inserted peoples:", error);
+      }
+    };
+
+    fetchInsertedPeoples();
   }, []);
 
   const handleDelete = (id) => {
