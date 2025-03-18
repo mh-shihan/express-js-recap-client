@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useLoaderData, useNavigate } from "react-router-dom";
 
 const Update = () => {
@@ -25,7 +26,7 @@ const Update = () => {
       .then((data) => {
         // console.log(data);
         if (data.modifiedCount > 0) {
-          alert("Updated Successfully!");
+          toast.success("Update Successful!");
           navigate("/inserted-peoples");
         }
       });

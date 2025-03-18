@@ -1,10 +1,21 @@
-import { useLoaderData } from "react-router-dom";
 import People from "../../components/people/People";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAuthInfo from "../../hooks/useAuthInfo";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const InsertedPeoples = () => {
-  const loadedInsertedPeoples = useLoaderData();
-  const [insertedPeoples, setInsertedPeoples] = useState(loadedInsertedPeoples);
+  const [insertedPeoples, setInsertedPeoples] = useState([]);
+  const { user } = useAuthInfo();
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/inserted-peoples?email=${user?.email}`)
+      .then((res) => {
+        console.log(res.data);
+        setInsertedPeoples(res.data);
+      });
+  }, []);
 
   const handleDelete = (id) => {
     console.log(id);
@@ -19,7 +30,18 @@ const InsertedPeoples = () => {
             (people) => people._id !== id
           );
           setInsertedPeoples(remainingPeoples);
-          alert("Deleted Successfully!");
+          toast.success("Deleted Successfully.", {
+            style: {
+              border: "1px solid #D32F2F", // Dark red border
+              padding: "16px",
+              color: "#D32F2F", // Red text color
+              backgroundColor: "#FFEBEE", // Light red background for visibility
+            },
+            iconTheme: {
+              primary: "#D32F2F", // Red icon color
+              secondary: "#FFCDD2", // Lighter red for contrast
+            },
+          });
         }
       });
   };
@@ -30,13 +52,14 @@ const InsertedPeoples = () => {
       </p>
       {
         <div className="grid grid-cols-5 gap-2 mx-20  mb-20">
-          {insertedPeoples.map((people) => (
-            <People
-              key={people._id}
-              people={people}
-              handleDelete={handleDelete}
-            ></People>
-          ))}
+          {insertedPeoples &&
+            insertedPeoples?.map((people) => (
+              <People
+                key={people._id}
+                people={people}
+                handleDelete={handleDelete}
+              ></People>
+            ))}
         </div>
       }
     </div>

@@ -3,6 +3,7 @@ import { Link, replace, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../firebase/AuthProviders";
 import toast from "react-hot-toast";
 import GoogleLogin from "../../components/social-login/GoogleLogin";
+import axios from "axios";
 
 const Signin = () => {
   const { signinUser } = useContext(AuthContext);
@@ -19,11 +20,22 @@ const Signin = () => {
     const toastId = toast.loading("Loading......");
 
     signinUser(email, password)
-      .then(() => {
-        toast.success("SignIn Successful", { id: toastId });
-        navigate(location?.state ? location.state : "/", { replace: true });
+      .then((res) => {
+        if (res?.user) {
+          const user = res.user;
+          //JWT
+          axios
+            .post("http://localhost:5000/jwt", user, { withCredentials: true })
+            .then((res) => {
+              console.log(res.data);
+            });
+
+          toast.success("SignIn Successful", { id: toastId });
+          // navigate(location?.state ? location.state : "/", { replace: true });
+        }
       })
       .catch((error) => {
+        toast.error("Email or Username Is Not Correct", { id: toastId });
         console.log(error.message);
       });
   };

@@ -17,20 +17,16 @@ const Navbar = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Sign Out!",
     }).then((result) => {
-      logOut()
-        .then(() => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Sign Out!",
-              text: "Sign Out Successful",
-              icon: "success",
-            });
-            navigate("/");
-          }
-        })
-        .then((error) => {
-          console.log(error);
-        });
+      logOut().then(() => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Sign Out!",
+            text: "Sign Out Successful",
+            icon: "success",
+          });
+          // navigate("/");
+        }
+      });
     });
   };
 
@@ -39,8 +35,9 @@ const Navbar = () => {
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
+
       <li>
-        <NavLink to="/input-form">Input Form</NavLink>
+        <NavLink to={`/input-form`}>Input Form</NavLink>
       </li>
       <li>
         <NavLink to="/inserted-peoples">Inserted People</NavLink>

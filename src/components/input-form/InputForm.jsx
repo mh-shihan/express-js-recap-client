@@ -1,9 +1,14 @@
+import toast from "react-hot-toast";
+import useAuthInfo from "../../hooks/useAuthInfo";
+
 const InputForm = () => {
+  const { user } = useAuthInfo();
+  console.log(user?.email);
   const handleInputFormSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
-    const email = form.email.value;
+    const email = user?.email;
     const age = form.age.value;
 
     const userInfo = { name, email, age };
@@ -18,8 +23,8 @@ const InputForm = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.acknowledged) {
-          alert("Data Inserted Successfully");
-          form.reset();
+          toast.success("Inserted Successfully");
+          // form.reset();
         }
       });
     // .catch((error) => console.log(error));
@@ -44,6 +49,7 @@ const InputForm = () => {
           type="email"
           name="email"
           placeholder="example@gmail.com"
+          defaultValue={user?.email}
           id=""
         />
         <input

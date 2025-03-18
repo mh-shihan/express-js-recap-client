@@ -33,7 +33,6 @@ const router = createBrowserRouter([
             <InsertedPeoples></InsertedPeoples>
           </PrivateRoute>
         ),
-        loader: () => fetch("http://localhost:5000/inserted-peoples"),
       },
       {
         path: "update/:id",

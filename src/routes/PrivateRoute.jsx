@@ -6,7 +6,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
   console.log(loading);
 
-  if (loading)
+  if (loading == true && user != null)
     return (
       <span className="loading loading-dots loading-3xl text-center"></span>
     );
